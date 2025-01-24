@@ -1,29 +1,12 @@
-# OpenAI secrets
-OPENAI_API_KEY = ""
+[logger]
 
-# Astra DB secrets
-ASTRA_ENDPOINT = ""
-ASTRA_TOKEN = ""
+# Level of logging: 'error', 'warning', 'info', or 'debug'.
+# Default: 'info'
+level = "info"
 
-# Optionally: LangSmith secrets for tracing
-LANGCHAIN_TRACING_V2 = "true"
-LANGCHAIN_ENDPOINT = ""
-LANGCHAIN_API_KEY = ""
-LANGCHAIN_PROJECT = ""
-
-[passwords]
-# Follow the rule: username = "password"
-# Where username defines the Astra Vector Table and the rails.csv experience
-postnl = ""
-datastax = ""
-
-[languages]
-# Follow the rule: username = "localization_code"
-# Where localization_code defines the language from localization.csv
-postnl = "nl_NL"
-datastax = "en_US"
-
-[delete_option]
-# Follow the rule: username = "delete_option"
-# Where delete_option = True allows the 'Delete Context' button to be shown for that username
-datastax = "True"
+# String format for logging messages. If logger.datetimeFormat is set,
+# logger messages will default to %(asctime)s.%(msecs)03d %(message)s. See
+# Python's documentation for available attributes:
+# https://docs.python.org/2.6/library/logging.html#formatter-objects
+# Default: "%(asctime)s %(message)s"
+messageFormat = "%(asctime)s %(levelname)s: %(message)s"
