@@ -6,6 +6,8 @@ import pandas as pd
 import uuid
 
 import streamlit as st
+from streamlit.components.v1 import html
+
 
 from langchain_community.vectorstores import AstraDB
 from langchain_openai import OpenAIEmbeddings
@@ -23,8 +25,59 @@ from langchain.callbacks.base import BaseCallbackHandler
 
 import openai
 
+
+#Load up of page. Sidebar can be hidden. 
 print("Started")
-st.set_page_config(page_title='Your Enterprise Sidekick', page_icon='🚀')
+st.set_page_config(page_title='InnovateUK 24/7 Support', page_icon='🚀', layout= 'wide')
+
+
+# Add custom CSS and JavaScript for the collapsible sidebar
+sidebar_collapse_css = """
+<style>
+    .sidebar .sidebar-content {
+        transition: margin-left 0.3s ease-in-out;
+        margin-left: -300px; /* Default hidden position */
+    }
+    .sidebar.expanded .sidebar-content {
+        margin-left: 0; /* Fully visible position */
+    }
+    .sidebar-toggle-button {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1000;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+"""
+
+sidebar_toggle_js = """
+<script>
+    const toggleSidebar = () => {
+        const sidebar = document.querySelector(".sidebar");
+        sidebar.classList.toggle("expanded");
+    };
+</script>
+"""
+
+# Insert the CSS and JS into the app
+st.markdown(sidebar_collapse_css, unsafe_allow_html=True)
+
+# Add the toggle button to the main page
+toggle_button = """
+<button class="sidebar-toggle-button" onclick="toggleSidebar()">☰ Toggle Sidebar</button>
+"""
+html(toggle_button + sidebar_toggle_js, height=0)
+
+
+
 
 # Get a unique session id for memory
 if "session_id" not in st.session_state:
@@ -193,20 +246,30 @@ Answer in {language}:"""
 
     if type == 'Short results':
         print ("Prompt type: Short results")
-        template = f"""You're a helpful AI assistant tasked to answer the user's questions.
-You answer in an exceptionally brief way.
-If the question states the name of the user, just say 'Thanks, I'll use this information going forward'.
-If you don't know the answer, just say 'I do not know the answer'.
+        template = f"""You are an AI chatbot designed to assist technology businesses in understanding how InnovateUK can support them.
+    InnovateUK primarily supports:
+    - Businesses with over 20% year-on-year growth.
+    - Businesses with innovative products, services, or processes.
+    
+    If a business fits this profile, provide detailed guidance on InnovateUK funding, accelerators, or R&D grants. Recommend brochures or case studies for more information.
 
-Use the following context to answer the question:
-{{context}}
+    If a business does not fit the above profile, advise them to contact their local Growth Hub for support.
 
-Use the following chat history to answer the question:
-{{chat_history}}
+    Always maintain a professional yet approachable tone. Respond using the following structure:
+    - Greeting
+    - Assess the business (ask questions to understand their growth and innovation level)
+    - Provide specific advice based on their eligibility
+    - Suggest resources (e.g., brochures, Growth Hub details, or funding options)
 
-Question:
-{{question}}
+    Use the provided context to answer queries:
+    {{context}}
 
+    Use this conversation history for reference:
+    {{chat_history}}
+
+    Question:
+    {{question}}
+    Respond in a helpful and structured way:
 Answer in {language}:"""
 
     if type == 'Custom':
@@ -221,7 +284,7 @@ def load_model():
     # Get the OpenAI Chat Model
     return ChatOpenAI(
         temperature=0.3,
-        model='gpt-4-1106-preview',
+        model='gpt-4o',
         streaming=True,
         verbose=True
     )
@@ -271,32 +334,6 @@ def reciprocal_rank_fusion(results: list[list], k=60):
         for doc, score in sorted(fused_scores.items(), key=lambda x: x[1], reverse=True)
     ]
     return reranked_results
-
-# Describe the image based on OpenAI
-def describeImage(image_bin, language):
-    print ("describeImage")
-    image_base64 = base64.b64encode(image_bin).decode()
-    response = openai.chat.completions.create(
-        model="gpt-4-vision-preview",
-        messages=[
-            {
-            "role": "user",
-            "content": [
-                #{"type": "text", "text": "Describe the image in detail"},
-                {"type": "text", "text": f"Provide a search text for the main topic of the image writen in {language}"},
-                {
-                "type": "image_url",
-                "image_url": {
-                    "url": f"data:image/jpeg;base64,{image_base64}",
-                },
-                },
-            ],
-            }
-        ],
-        max_tokens=4096,  # default max tokens is low so set higher
-    )
-    print (f"describeImage result: {response}")
-    return response
 
 ##################
 ### Data Cache ###
@@ -390,14 +427,14 @@ except:
 # Show a custom logo (svg or png) or the DataStax logo
 with st.sidebar:
     try:
-        st.image(f"""./customizations/logo/{username}.svg""", use_column_width="always")
+        st.image(f"""./customizations/logo/innovate.png""", use_container_width=True)
         st.text('')
     except:
         try:
-            st.image(f"""./customizations/logo/{username}.png""", use_column_width="always")
+            st.image(f"""./customizations/logo/innovate.png""", use_container_width=True)
             st.text('')
         except:
-            st.image('./customizations/logo/default.svg', use_column_width="always")
+            st.image('./customizations/logo/innovate.png', use_container_width=True)
             st.text('')
 
 # Logout button
@@ -490,14 +527,7 @@ for message in st.session_state.messages:
 
 # Now get a prompt from a user
 question = st.chat_input(lang_dict['assistant_question'])
-with st.sidebar:
-    st.divider()
-    picture = st.camera_input(lang_dict['take_picture'])
-    if picture:
-        response = describeImage(picture.getvalue(), language)
-        picture_desc = response.choices[0].message.content
-        question = picture_desc
-
+ 
 if question:
     print(f"Got question: {question}")
            

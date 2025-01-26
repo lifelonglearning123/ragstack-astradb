@@ -1,13 +1,8 @@
-### Your Enterprise Sidekick
-Generative AI is considered to bring the next Industrial Revolution as studies show a **37% efficiency boost** in day to day work activities!
+Empowering your innovation-driven business to grow at pace
+Innovate UK Business Growth (previously Innovate UK EDGE) is a key part of the UK innovation agency deep investment in the pioneering businesses that drive economic growth. It is a publicly-funded service available to all high potential small to medium sized innovation-driven companies, including Innovate UK grant winners.
 
-#### DATA = AI
-The most important differentiator in Qualitative Generative AI is Data. There is no AI without Data! Read this [in-depth article by Michel de Ru](https://datastax.medium.com/with-generative-ai-context-is-king-7a1469942044). It's your data that provides a Sustainable Competitive Advantage.
+Innovators are motivated to improve the ways we live and work. We support those building scalable businesses to achieve their goals, in every sector and from seed to scale stage.
 
-#### DataStax Astra DB
-Providing the best data at the highest performance for Generative AI is done by using [DataStax Astra DB](https://db.new) as is underscored in [an independant research by GigaOM](https://www.datastax.com/resources/report/gigaom-study-vector-databases-compared).
+We work closely with leadership teams to create the conditions for each business to succeed and bring the benefits of their innovation to national and international audiences. Since 2015 we have been empowering clients to grow and scale their businesses through actionable advice, access to vital resources and opportunities to enhance their abilities.
 
-#### Focus on Data
-This GenAI Chatbot has a laser focus on the interaction between Astra DB and the Foundational Large Language Model and offers a multitude of options that change that interaction. Try it out in the panel on the left and make sure you **store your data in a database that's worth storing your data**.
-
----
+Your journey will usually start with our national enquiry gateway, which receives enquiries from innovative businesses, connecting them to their local innovation and growth specialist if appropriate. Our innovation and growth specialists are at the centre of our service, with each client engagement resulting in a bespoke strategy. Our national enquiry team can also offer additional support in areas such as market research/intelligence insights, providing you with key information about current regulation and product/service conformity in the UK, EU or worldwide.
