@@ -25,6 +25,10 @@ from langchain.callbacks.base import BaseCallbackHandler
 
 import openai
 
+from azure.identity import DefaultAzureCredential
+from azure.appconfiguration import AzureAppConfigurationClient
+
+
 
 #Load up of page. Sidebar can be hidden. 
 print("Started")
@@ -395,6 +399,13 @@ def load_vectorstore(username):
         token=st.secrets["ASTRA_TOKEN"],
         api_endpoint=os.environ["ASTRA_ENDPOINT"],
     )
+    # Check if the collection exists, and create if necessary
+    existing_collections = astra_db.list_collections()
+    if collection_name not in existing_collections:
+        print(f"Creating collection: {collection_name}")
+        astra_db.create_collection(collection_name)
+
+    return astra_db
 
 # Cache Chat History for future runs
 @st.cache_resource(show_spinner=lang_dict['load_message_history'])
